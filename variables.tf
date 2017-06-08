@@ -2,6 +2,11 @@ variable "name" {
   description = "Name for this backup task"
 }
 
+variable "bucket_name" {
+  description = "Bucket to sync the files to"
+  default = "test" # FIXME
+}
+
 variable "bind_host_path" {
   description = "Host volume to mount into the container. Must be set together with bind_host_path"
   default     = "/tmp/dummy"

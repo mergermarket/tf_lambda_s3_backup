@@ -23,8 +23,28 @@ module "s3_backup_taskdef" {
   family                = "${var.name}-s3-backup"
   container_definitions = ["${module.s3_backup_container_definition.rendered}"]
 
+  policy = "${data.aws_iam_policy_document.s3_backup_policy.json}"
+
   volume = {
     name       = "s3_backup_volume"
     host_path  = "${var.bind_host_path}"
+  }
+}
+
+# Allow the task to sync files into the container
+data "aws_iam_policy_document" "s3_backup_policy" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+        "s3:ListBucket",
+        "s3:PutObject",
+        "s3:PutObjectAcl"
+    ]
+
+    resources = [
+      "arn:aws:s3:::${var.bucket_name}",
+      "arn:aws:s3:::${var.bucket_name}/*"
+    ]
   }
 }
