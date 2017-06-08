@@ -4,7 +4,6 @@ variable "name" {
 
 variable "bucket_name" {
   description = "Bucket to sync the files to"
-  default = "test" # FIXME
 }
 
 variable "lambda_cron_schedule" {

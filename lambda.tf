@@ -39,11 +39,11 @@ data "aws_iam_policy_document" "lambda_policy" {
     actions = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
-      "logs:PutLogEvents"
+      "logs:PutLogEvents",
     ]
 
     resources = [
-      "arn:aws:logs:*:*:*"
+      "arn:aws:logs:*:*:*",
     ]
   }
 
@@ -52,11 +52,11 @@ data "aws_iam_policy_document" "lambda_policy" {
     effect = "Allow"
 
     actions = [
-      "ecs:RunTask"
+      "ecs:RunTask",
     ]
 
     resources = [
-      "${module.s3_backup_taskdef.arn}"
+      "${module.s3_backup_taskdef.arn}",
     ]
   }
 
@@ -65,15 +65,15 @@ data "aws_iam_policy_document" "lambda_policy" {
     effect = "Allow"
 
     actions = [
-      "sts:AssumeRole"
+      "sts:AssumeRole",
     ]
 
     resources = [
-      "${module.s3_backup_taskdef.task_role_arn}"
+      "${module.s3_backup_taskdef.task_role_arn}",
     ]
   }
 
-  depends_on = [ "module.s3_backup_taskdef" ]
+  depends_on = ["module.s3_backup_taskdef"]
 }
 
 resource "aws_lambda_permission" "allow_cloudwatch" {
@@ -115,6 +115,6 @@ resource "aws_cloudwatch_event_rule" "cron_schedule" {
 }
 
 resource "aws_cloudwatch_event_target" "event_target" {
-  rule      = "${aws_cloudwatch_event_rule.cron_schedule.name}"
-  arn       = "${aws_lambda_function.lambda_function.arn}"
+  rule = "${aws_cloudwatch_event_rule.cron_schedule.name}"
+  arn  = "${aws_lambda_function.lambda_function.arn}"
 }

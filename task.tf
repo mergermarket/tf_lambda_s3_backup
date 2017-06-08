@@ -9,14 +9,13 @@ resource "aws_cloudwatch_log_group" "stderr" {
   retention_in_days = "7"
 }
 
-
 module "s3_backup_container_definition" {
   source = "github.com/mergermarket/tf_ecs_container_definitions"
 
-  name           = "${var.name}-s3-backup"
-  image          = "${var.docker_image}"
-  cpu            = 256
-  memory         = 256
+  name   = "${var.name}-s3-backup"
+  image  = "${var.docker_image}"
+  cpu    = 256
+  memory = 256
 
   container_env = "${
     merge(
@@ -27,7 +26,6 @@ module "s3_backup_container_definition" {
       )
     )
   }"
-
 
   metadata = "${var.metadata}"
 
@@ -47,8 +45,8 @@ module "s3_backup_taskdef" {
   policy = "${data.aws_iam_policy_document.s3_backup_policy.json}"
 
   volume = {
-    name       = "s3_backup_volume"
-    host_path  = "${var.bind_host_path}"
+    name      = "s3_backup_volume"
+    host_path = "${var.bind_host_path}"
   }
 }
 
@@ -58,14 +56,14 @@ data "aws_iam_policy_document" "s3_backup_policy" {
     effect = "Allow"
 
     actions = [
-        "s3:ListBucket",
-        "s3:PutObject",
-        "s3:PutObjectAcl"
+      "s3:ListBucket",
+      "s3:PutObject",
+      "s3:PutObjectAcl",
     ]
 
     resources = [
       "arn:aws:s3:::${var.bucket_name}",
-      "arn:aws:s3:::${var.bucket_name}/*"
+      "arn:aws:s3:::${var.bucket_name}/*",
     ]
   }
 }

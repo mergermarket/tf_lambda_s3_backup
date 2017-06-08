@@ -18,8 +18,9 @@ module "lambda_s3_backup" {
   bind_host_path      = "/mnt/vol-1234"
   bind_container_path = "/data"
   cluster             = "test-cluster"
-  backup_env          = {
-    "VAR1" = "foo",
-    "VAR1" = "bar",
+
+  backup_env = {
+    "VAR1" = "foo"
+    "VAR1" = "bar"
   }
 }
