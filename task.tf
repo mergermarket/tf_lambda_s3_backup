@@ -1,3 +1,15 @@
+# Create two Cloudwatch Log Groups for the backup container
+resource "aws_cloudwatch_log_group" "stdout" {
+  name              = "${var.name}-s3-backup-stdout"
+  retention_in_days = "7"
+}
+
+resource "aws_cloudwatch_log_group" "stderr" {
+  name              = "${var.name}-s3-backup-stderr"
+  retention_in_days = "7"
+}
+
+
 module "s3_backup_container_definition" {
   source = "github.com/mergermarket/tf_ecs_container_definitions"
 
@@ -6,7 +18,16 @@ module "s3_backup_container_definition" {
   cpu            = 256
   memory         = 256
 
-  container_env = "${var.backup_env}"
+  container_env = "${
+    merge(
+      var.backup_env,
+      map(
+        "LOGSPOUT_CLOUDWATCHLOGS_LOG_GROUP_STDOUT", "${var.name}-s3-backup-stdout",
+        "LOGSPOUT_CLOUDWATCHLOGS_LOG_GROUP_STDERR", "${var.name}-s3-backup-stderr"
+      )
+    )
+  }"
+
 
   metadata = "${var.metadata}"
 
