@@ -12,3 +12,9 @@ variable "backup_env" {
   type        = "map"
   default     = {}
 }
+
+variable "metadata" {
+  description = "Metadata for the resources created by this module"
+  type        = "map"
+  default     = {}
+}

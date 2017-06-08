@@ -7,6 +7,8 @@ module "s3_backup_container_definition" {
   memory         = 256
 
   container_env = "${var.backup_env}"
+
+  metadata = "${var.metadata}"
 }
 
 module "s3_backup_taskdef" {
