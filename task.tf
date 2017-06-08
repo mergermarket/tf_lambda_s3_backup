@@ -10,7 +10,7 @@ resource "aws_cloudwatch_log_group" "stderr" {
 }
 
 module "s3_backup_container_definition" {
-  source = "github.com/mergermarket/tf_ecs_container_definitions"
+  source = "github.com/mergermarket/tf_ecs_container_definition"
 
   name   = "${var.name}-s3-backup"
   image  = "${var.docker_image}"

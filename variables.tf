@@ -7,7 +7,7 @@ variable "bucket_name" {
 }
 
 variable "lambda_cron_schedule" {
-  description = "The sceduling expression for how often the lambda function runs."
+  description = "The scheduling expression for how often the lambda function runs."
   default = "rate(3 hours)"
 }
 
