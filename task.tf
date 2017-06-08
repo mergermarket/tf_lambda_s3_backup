@@ -5,6 +5,8 @@ module "s3_backup_container_definition" {
   image          = "${var.docker_image}"
   cpu            = 256
   memory         = 256
+
+  container_env = "${var.backup_env}"
 }
 
 module "s3_backup_taskdef" {
