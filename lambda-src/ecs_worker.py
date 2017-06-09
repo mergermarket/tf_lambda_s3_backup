@@ -1,4 +1,5 @@
 import os
+import sys
 import logging
 import shlex
 
@@ -10,7 +11,8 @@ try:
     import boto3
     client = boto3.client('ecs')
 except ImportError:
-    logger.warning('boto3 is not installed. ECSTasks require boto3')
+    logger.error('boto3 is not installed. ECSTasks require boto3')
+    sys.exit(1)
 
 
 def trigger(event, context):
