@@ -31,6 +31,8 @@ resource "aws_iam_role_policy" "lambda_policy" {
   policy = "${data.aws_iam_policy_document.lambda_policy.json}"
 }
 
+data "aws_caller_identity" "current" {}
+
 data "aws_iam_policy_document" "lambda_policy" {
   # Allow lambda to log
   statement {
@@ -43,7 +45,8 @@ data "aws_iam_policy_document" "lambda_policy" {
     ]
 
     resources = [
-      "arn:aws:logs:*:*:*",
+      "arn:aws:logs:*:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${var.name}-s3-backup",
+      "arn:aws:logs:*:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${var.name}-s3-backup:*"
     ]
   }
 
