@@ -37,7 +37,7 @@ module "s3_backup_container_definition" {
 }
 
 module "s3_backup_taskdef" {
-  source = "github.com/mergermarket/tf_ecs_task_definition_with_task_role"
+  source = "github.com/mergermarket/tf_ecs_task_definition_with_task_role?ref=pre-assume-role"
 
   family                = "${var.name}-s3-backup"
   container_definitions = ["${module.s3_backup_container_definition.rendered}"]
