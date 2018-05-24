@@ -14,7 +14,7 @@ module "s3_backup_container_definition" {
 
   name   = "${var.name}-s3-backup"
   image  = "${var.docker_image}"
-  cpu    = 256
+  cpu    = 512
   memory = 512
 
   container_env = "${
